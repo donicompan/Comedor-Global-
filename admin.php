@@ -205,7 +205,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($accion === 'agregar_mesa') {
         $zona_nueva = trim($_POST['zona'] ?? '');
         if ($zona_nueva) {
-            $stmt = $conexion->prepare("INSERT INTO mesa (dispo_mesa, zona) VALUES ('Disponible', ?)");
+            // Usar MAX(id_mesa)+1 para que el número sea siempre el siguiente al más alto,
+            // evitando saltos por el AUTO_INCREMENT cuando se eliminaron mesas anteriores.
+            $stmt = $conexion->prepare("
+                INSERT INTO mesa (id_mesa, dispo_mesa, zona)
+                SELECT COALESCE(MAX(id_mesa), 0) + 1, 'Disponible', ?
+                FROM mesa
+            ");
             $stmt->bind_param("s", $zona_nueva);
             $stmt->execute() ? $ok = 'mesa_creada' : $error = 'error_db';
             $stmt->close();
