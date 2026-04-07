@@ -8,7 +8,7 @@ header('Cache-Control: public, max-age=3600');
 
 require_once __DIR__ . '/conexion.php';
 
-$nombre = 'Cardón POS';
+$nombre = 'Dony Software POS';
 $logo   = 'img/LogoCardon.jpeg';
 
 $res = $conexion->query("SELECT clave, valor FROM configuracion WHERE clave IN ('nombre','logo_path')");

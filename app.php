@@ -126,9 +126,16 @@ unset($_app_pagina, $_app_exentas);
         $id = (int)basename($archivo, '.php');
         if (!$id || in_array($id, $aplicadas)) continue;
 
-        $sqls = include $archivo;          // el archivo retorna array de SQLs
-        foreach ((array)$sqls as $sql) {
-            if (trim($sql)) $conn->query($sql);
+        $migration = include $archivo;
+        // Soporta dos formatos:
+        //   callable → fn(mysqli): void  (para lógica compleja, compatible con MySQL 8)
+        //   array    → ['SQL...', ...]   (para sentencias simples)
+        if (is_callable($migration)) {
+            $migration($conn);
+        } else {
+            foreach ((array)$migration as $sql) {
+                if (trim($sql)) $conn->query($sql);
+            }
         }
         $stmt = $conn->prepare("INSERT IGNORE INTO migraciones (id) VALUES (?)");
         $stmt->bind_param("i", $id);

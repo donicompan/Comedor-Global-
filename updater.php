@@ -34,7 +34,7 @@ if ($accion === 'check') {
     $ctx = stream_context_create(['http' => [
         'timeout'       => 8,
         'ignore_errors' => true,
-        'user_agent'    => 'CardonPOS/' . APP_VERSION,
+        'user_agent'    => 'DonyPOS/' . APP_VERSION,
     ]]);
 
     $body = @file_get_contents(UPDATE_MANIFEST_URL, false, $ctx);
@@ -104,7 +104,7 @@ if ($accion === 'apply') {
     $tmp = sys_get_temp_dir() . '/cardon_update_' . time() . '.zip';
     $ctx = stream_context_create(['http' => [
         'timeout'    => 120,
-        'user_agent' => 'CardonPOS/' . APP_VERSION,
+        'user_agent' => 'DonyPOS/' . APP_VERSION,
     ]]);
 
     $data = @file_get_contents($download_url, false, $ctx);

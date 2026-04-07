@@ -1,4 +1,4 @@
-# Cardón POS — Sistema de gestión para restaurantes
+# Dony Software POS — Sistema de gestión para restaurantes
 
 Sistema de punto de venta (POS) para restaurantes. Gestión de mesas, pedidos, cocina, ventas y licenciamiento por cliente.
 

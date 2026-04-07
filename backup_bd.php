@@ -23,7 +23,7 @@ $output = fopen('php://output', 'w');
 // Cabecera del archivo
 fwrite($output, "-- Backup de base de datos: $db_name\n");
 fwrite($output, "-- Generado: " . date('Y-m-d H:i:s') . "\n");
-fwrite($output, "-- Sistema: Cardón POS\n\n");
+fwrite($output, "-- Sistema: Dony Software POS\n\n");
 fwrite($output, "SET FOREIGN_KEY_CHECKS=0;\n\n");
 
 // Obtener todas las tablas

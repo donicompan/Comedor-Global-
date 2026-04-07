@@ -1169,7 +1169,7 @@ $mensajes_error = [
                 <div class="p-3">
                     <div id="upd-idle">
                         <p class="small text-muted mb-3">
-                            Verificá si hay una nueva versión de Cardón POS disponible.
+                            Verificá si hay una nueva versión de Dony Software POS disponible.
                             Las actualizaciones incluyen mejoras, correcciones y cambios en la base de datos —
                             tus datos no se modifican.
                         </p>

@@ -1,5 +1,5 @@
 /**
- * sw.js — Service Worker de Cardón POS
+ * sw.js — Service Worker de Dony Software POS
  *
  * Estrategia:
  *   - Páginas PHP → Network-first (datos siempre frescos)
@@ -7,7 +7,7 @@
  *   - Si no hay red → devuelve lo que haya en caché
  */
 
-const CACHE_NAME = 'cardon-pos-v1.0.0';
+const CACHE_NAME = 'dony-pos-v1.0.0';
 
 const STATIC_ASSETS = [
     'css/estiloPrincipal.css',
