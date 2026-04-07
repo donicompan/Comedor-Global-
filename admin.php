@@ -205,12 +205,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($accion === 'agregar_mesa') {
         $zona_nueva = trim($_POST['zona'] ?? '');
         if ($zona_nueva) {
-            // Usar MAX(id_mesa)+1 para que el número sea siempre el siguiente al más alto,
-            // evitando saltos por el AUTO_INCREMENT cuando se eliminaron mesas anteriores.
+            // Buscar el primer número libre de la secuencia global (rellena huecos).
+            // Ej: si existen 1,2,3,5,6 → el siguiente es 4, no 7.
             $stmt = $conexion->prepare("
                 INSERT INTO mesa (id_mesa, dispo_mesa, zona)
-                SELECT COALESCE(MAX(id_mesa), 0) + 1, 'Disponible', ?
-                FROM mesa
+                SELECT MIN(candidate), 'Disponible', ?
+                FROM (
+                    SELECT 1 AS candidate
+                    UNION ALL
+                    SELECT id_mesa + 1 FROM mesa
+                ) AS candidatos
+                WHERE candidate NOT IN (SELECT id_mesa FROM mesa)
             ");
             $stmt->bind_param("s", $zona_nueva);
             $stmt->execute() ? $ok = 'mesa_creada' : $error = 'error_db';
