@@ -20,7 +20,7 @@ define('APP_SECRET', 'REEMPLAZAR_CON_LA_CLAVE_SECRETA');
 // ── Actualizaciones automáticas ───────────────────────────────────────
 // URL del manifest JSON que el sistema consulta para detectar actualizaciones.
 // El desarrollador provee esta URL junto con cada instalación.
-define('UPDATE_MANIFEST_URL', '');   // ← completar con la URL que te dé el desarrollador
+define('UPDATE_MANIFEST_URL', 'https://raw.githubusercontent.com/donicompan/Comedor-Global-/main/manifest.json');
 
 // Hosts autorizados para descargar actualizaciones (no modificar).
 define('UPDATE_ALLOWED_HOSTS', ['github.com', 'raw.githubusercontent.com']);
