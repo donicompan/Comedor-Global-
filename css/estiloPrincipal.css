@@ -1,0 +1,212 @@
+/* ============================================================
+   estiloPrincipal.css — Restaurante Cardón
+   Responsive: mobile / tablet / desktop / TV
+   ============================================================ */
+
+/* ── Reset & Base ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background-image: url("../img/paisaje.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.65);
+    z-index: -1;
+}
+
+/* ── Navbar responsive ───────────────────────────────────── */
+.navbar {
+    padding: 10px 16px;
+}
+
+.navbar-brand {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+}
+
+.nav-link {
+    font-size: 0.9rem;
+    padding: 6px 12px !important;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.nav-link:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* ── Stat cards ──────────────────────────────────────────── */
+.stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.stat-label {
+    font-size: 0.72rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    font-weight: 700;
+    color: #222;
+    line-height: 1;
+}
+
+/* ── Panel de zona (Salón / Patio) ───────────────────────── */
+.card {
+    background: rgba(255,255,255,0.97);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background: rgba(255,255,255,0.6);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    border-radius: 16px 16px 0 0 !important;
+    padding: 14px 18px;
+}
+
+/* ── Tarjeta de mesa ─────────────────────────────────────── */
+.mesa-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    gap: 10px;
+}
+
+.mesa-card:last-child { margin-bottom: 0; }
+
+.mesa-card:hover {
+    transform: translateX(4px);
+    border-color: #667eea;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+.mesa-disponible { background: #f0fff4; }
+.mesa-ocupada    { background: #fff5f5; }
+
+/* ── Indicadores de estado ───────────────────────────────── */
+.indicador {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.indicador-verde {
+    background: #28a745;
+    border: 3px solid #1e7e34;
+}
+
+.indicador-rojo {
+    background: #dc3545;
+    border: 3px solid #bd2130;
+    animation: pulso 2s infinite;
+}
+
+@keyframes pulso {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+}
+
+/* ── Responsive breakpoints ──────────────────────────────── */
+
+/* Celular pequeño (<480px) */
+@media (max-width: 480px) {
+    .mesa-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mesa-card .d-flex.gap-2 {
+        width: 100%;
+    }
+
+    .mesa-card .btn {
+        flex: 1;
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+
+    .stat-value {
+        font-size: 1.2rem;
+    }
+
+    .navbar-brand span {
+        display: none; /* Solo ícono en pantallas muy chicas */
+    }
+}
+
+/* Tablet (481px – 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .stat-value { font-size: 1.4rem; }
+}
+
+/* TV / pantallas grandes (>1600px) */
+@media (min-width: 1600px) {
+    .stat-value   { font-size: 2rem; }
+    .stat-icon    { width: 64px; height: 64px; font-size: 1.7rem; }
+    .mesa-card    { padding: 16px 20px; }
+    .nav-link     { font-size: 1rem; }
+    body          { font-size: 1.05rem; }
+}
+
+/* Print */
+@media print {
+    body::before  { display: none; }
+    body          { background: white; }
+    .no-print     { display: none !important; }
+    .navbar       { display: none !important; }
+}

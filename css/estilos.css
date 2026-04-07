@@ -1,0 +1,200 @@
+body {
+    background-color: #f8f9fad8;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+body h1 {
+    color: rgb(255, 255, 248);
+    text-shadow: 0px 0px 10px cyan;
+    margin: 10px 0;
+}
+.navbar {
+    background-color: #0056b3;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin: 10px 20px;
+}
+/* Logo de la barra */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #fff !important;
+    text-shadow: 0px 0px 5px rgba(0, 217, 255, 0.8);
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #00ccff !important;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff !important;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-right: 10px;
+    position: relative;
+}
+
+.nav-link:hover {
+    text-decoration: none !important;
+    color: #00ccff !important;
+    transform: scale(1.02);
+    text-shadow: 0px 0px 10px #00ccff;
+}
+/* Subrayado animado en hover */
+.nav-link::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #00ccff;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+.nav-link:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+.container {
+    max-width: 800px;
+}
+section#contenedor {
+    margin: 20px !important; 
+    background-size: cover !important;
+    background-position: center !important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.452)!important;
+    animation: BgAnimation 10s linear infinite !important; /* Animación para el fondo */
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    padding: 20px !important;
+}
+section#form_consulta {
+    background-color: rgba(34, 218, 231, 0) !important; 
+}
+input.form-control {
+    all: unset; /* Elimina todos los estilos predefinidos */
+    background-color: rgba(0, 204, 255, 0.473)!important;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+}
+
+form input, form textarea {
+    all: unset; 
+    background-color: rgba(0, 204, 255, 0.473)!important;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    margin: auto !important;
+    border-radius: 5px;
+    padding: 10px;
+    border-radius: 5px; 
+    border: 2px solid #007bff;
+    transition: border-color 0.3s ease; /* Transición para el borde */
+}
+
+/* Efecto al enfocar los inputs */
+form input:focus,
+form textarea:focus {
+    border-color: #00ccff !important;
+    box-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+    outline: none;
+
+}
+form input[type="text"] {
+    background-color: #f8f9fa36; 
+}
+form input[type="file"] {
+    padding: 5px; 
+}
+
+form textarea {
+    height: 100px;
+    resize: vertical; 
+}
+
+.bg-white {
+    background-color: rgba(255, 255, 255, 0.5); 
+    backdrop-filter: blur(5px); 
+}
+
+button, .btn {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1.1rem;
+}
+
+#boton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+#boton:hover {
+    background-color: #0056b3;
+}
+.card {
+    display: flex;
+    flex-direction: column; /* Apilar el contenido de la tarjeta */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    height: 100%; /* La altura se ajustará al 100% del contenedor */
+    min-height: 450px; 
+    flex-grow: 1; 
+}
+.card-img-top {
+    width: 100%;
+    height: 200px; 
+    object-fit: cover; /* Asegura que la imagen cubra el área del contenedor */
+    object-position: center; /* Centra la imagen en el contenedor */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: block; /* Asegura que la imagen se muestre correctamente como bloque */
+    max-width: 100%; /* Limita el tamaño máximo de la imagen al 100% del contenedor */
+    max-height: 200px; /* Limita la altura máxima para evitar que se estire */
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    flex-grow: 1; /* Hace que el contenido ocupe el espacio restante */
+}
+
+/* Asegurarse de que el contenido no se desborde */
+.card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.card-text {
+    font-size: 1rem;
+}
+.btn {
+
+    margin-top: auto; /* Alinea los botones al final de la tarjeta */
+    width: 100%;
+    padding: 10px;
+}
+
+@keyframes BgAnimation {
+    0% {
+        background-image: url("../img/b1.jpg");
+    }
+    33% {
+        background-image: url("../img/b2.jpg");
+    }
+    66% {
+        background-image: url("../img/b3.jpg");
+    }   
+    100% {
+        background-image: url("../img/b2.jpg");
+    }
+}

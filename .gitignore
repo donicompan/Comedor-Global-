@@ -1,0 +1,36 @@
+# Configuración local con credenciales reales (NUNCA subir)
+config.php
+.env
+
+# Herramientas del desarrollador (no distribuir con el producto)
+generar_licencia.php
+build_update.php
+
+# Script de migración (eliminar después de usar)
+migrate_passwords.php
+
+# Backups generados automáticamente
+/backups/
+
+# Logs y cache
+*.log
+/logs/
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs y herramientas de desarrollo
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# Uploads generados por usuarios
+/uploads/
+
+# Composer (si se incorpora en el futuro)
+/vendor/
+composer.lock
