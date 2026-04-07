@@ -134,6 +134,12 @@ $lic_ok     = $_GET['lic']   ?? '';
         }
         .input-icon .form-control { padding-left: 38px; }
     </style>
+    <link rel="manifest" href="manifest.php">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Cardón POS">
+    <link rel="apple-touch-icon" href="img/LogoCardon.jpeg">
+    <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
 </head>
 <body>
 

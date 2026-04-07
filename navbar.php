@@ -164,3 +164,8 @@ elseif ($lic_estado === 'prueba' && $dias_rest !== null):
 endif;
 ?>
 <div class="mb-4"></div>
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>

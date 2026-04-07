@@ -188,6 +188,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: admin.php?s=config&ok=$ok&error=$error"); exit;
     }
 
+    if ($accion === 'subir_imagen_producto') {
+        $tipo = $_POST['tipo'] ?? '';
+        $id   = intval($_POST['id'] ?? 0);
+        $tablas = ['plato'=>['plato','id_plato'],'bebida'=>['bebida','id_bebida'],'postre'=>['postre','id_postre']];
+
+        if (isset($tablas[$tipo]) && $id && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+            [$tabla, $col_id] = $tablas[$tipo];
+            $file  = $_FILES['imagen'];
+            $tipos = ['image/jpeg'=>'jpg','image/png'=>'png','image/webp'=>'webp'];
+            $info  = @getimagesize($file['tmp_name']);
+
+            if ($info && isset($tipos[$info['mime']]) && $file['size'] <= 2 * 1024 * 1024) {
+                $ext  = $tipos[$info['mime']];
+                $dir  = __DIR__ . '/uploads/productos/';
+                if (!is_dir($dir)) mkdir($dir, 0755, true);
+
+                // Eliminar imagen anterior de este producto
+                foreach (['jpg','png','webp'] as $e) {
+                    $old = $dir . "{$tipo}_{$id}.{$e}";
+                    if (file_exists($old)) @unlink($old);
+                }
+
+                $dest = $dir . "{$tipo}_{$id}.{$ext}";
+                if (move_uploaded_file($file['tmp_name'], $dest)) {
+                    $path = "uploads/productos/{$tipo}_{$id}.{$ext}";
+                    $stmt = $conexion->prepare("UPDATE $tabla SET imagen=? WHERE $col_id=?");
+                    $stmt->bind_param("si", $path, $id);
+                    $stmt->execute(); $stmt->close();
+                    $ok = 'imagen_subida';
+                } else { $error = 'error_upload'; }
+            } else { $error = $file['size'] > 2*1024*1024 ? 'archivo_grande' : 'tipo_invalido'; }
+        } else { $error = 'datos_invalidos'; }
+        header("Location: admin.php?s=productos&ok=$ok&error=$error"); exit;
+    }
+
     if ($accion === 'activar_licencia_admin') {
         $clave_lic = trim($_POST['licencia_clave'] ?? '');
         if ($clave_lic) {
@@ -335,6 +370,7 @@ $mensajes_error = [
     'tipo_invalido'      => 'Solo se permiten imágenes JPG, PNG o WebP.',
     'sin_archivo'        => 'No se seleccionó ningún archivo.',
     'clave_invalida'     => 'La clave de licencia no es válida o está vencida.',
+    'imagen_subida'      => 'Imagen del producto actualizada correctamente.',
 ];
 ?>
 <!DOCTYPE html>
@@ -355,6 +391,7 @@ $mensajes_error = [
         .precio-input { max-width:150px; }
         @media(max-width:576px) { .precio-input { max-width:100%; } }
     </style>
+    <?php include 'pwa_head.php'; ?>
 </head>
 <body>
 <?php include('navbar.php'); ?>
@@ -460,15 +497,42 @@ $mensajes_error = [
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
+                            <th style="width:52px"></th>
                             <th>Nombre</th>
                             <th class="d-none d-md-table-cell">Descripción</th>
                             <th class="text-end">Precio</th>
-                            <th class="text-end" style="width:160px">Acciones</th>
+                            <th class="text-end" style="width:180px">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($g['items'] as $item): ?>
+                    <?php foreach ($g['items'] as $item):
+                        $img = $item['imagen'] ?? '';
+                    ?>
                         <tr>
+                            <!-- Miniatura / subir foto -->
+                            <td>
+                                <label class="d-block" style="cursor:pointer" title="Cambiar foto">
+                                    <?php if ($img && file_exists(__DIR__ . '/' . $img)): ?>
+                                        <img src="<?= htmlspecialchars($img) ?>?v=<?= filemtime(__DIR__.'/'.$img) ?>"
+                                             class="rounded" style="width:40px;height:40px;object-fit:cover;">
+                                    <?php else: ?>
+                                        <div class="rounded bg-light d-flex align-items-center justify-content-center"
+                                             style="width:40px;height:40px;color:#aaa;">
+                                            <i class="bi bi-camera"></i>
+                                        </div>
+                                    <?php endif; ?>
+                                    <form method="POST" enctype="multipart/form-data"
+                                          id="imgform_<?= $g['tipo'] ?>_<?= $item[$g['col_id']] ?>">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="accion" value="subir_imagen_producto">
+                                        <input type="hidden" name="tipo"   value="<?= $g['tipo'] ?>">
+                                        <input type="hidden" name="id"     value="<?= $item[$g['col_id']] ?>">
+                                        <input type="file" name="imagen" accept="image/jpeg,image/png,image/webp"
+                                               class="d-none"
+                                               onchange="this.form.submit()">
+                                    </form>
+                                </label>
+                            </td>
                             <td class="fw-semibold"><?= htmlspecialchars($item[$g['col_nom']]) ?></td>
                             <td class="text-muted small d-none d-md-table-cell"><?= htmlspecialchars($item[$g['col_desc']] ?? '') ?></td>
                             <td class="text-end">$<?= number_format($item[$g['col_precio']], 0, ',', '.') ?></td>
@@ -479,7 +543,7 @@ $mensajes_error = [
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <!-- Eliminar -->
-                                                <form method="POST" class="d-inline"
+                                <form method="POST" class="d-inline"
                                       onsubmit="return confirm('¿Eliminar <?= htmlspecialchars($item[$g['col_nom']]) ?>?')">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="accion" value="eliminar_producto">
